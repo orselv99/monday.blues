@@ -31,3 +31,5 @@ window.onload = () => {
 
   loop();
 };
+
+// TODO: github.io 에 배포해볼까 https://www.npmjs.com/package/gh-pages

@@ -6,5 +6,6 @@ module.exports = merge(common, {
   devServer: {
     port: 8000,
     hot: true,
+    contentBase: './dist', // build 경로의 html 을 바라보고 mapping
   },
 });
