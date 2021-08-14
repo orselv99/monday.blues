@@ -1,4 +1,4 @@
 export type Resolution = {
-  Height: number;
-  Width: number;
+  height: number;
+  width: number;
 };

@@ -3,11 +3,11 @@ import { Resolution } from '../types/cores';
 
 export const Camera = (res: Resolution): THREE.PerspectiveCamera => {
   const fieldOfView = 60;
-  const near = 0.1;
+  const near = 1;
   const far = 10000;
   const result = new THREE.PerspectiveCamera(
     fieldOfView,
-    res.Width / res.Height,
+    res.width / res.height,
     near,
     far
   );
