@@ -1,37 +1,25 @@
 import * as THREE from 'three';
 import { StageInfo, StageParameter } from './types/components';
 import { Camera, Renderer } from './cores';
-import { Resolution } from './types/cores';
+import { CoreParameter, Resolution } from './types/cores';
+import { Terrain } from './components';
 
-const Stage = (info: StageParameter): StageInfo => {
-  const result = new THREE.Scene();
+const Stage = (core: CoreParameter, info: StageParameter): StageInfo => {
+  const renderer = core.renderer;
+  const camera = core.camera;
+  const scene = core.scene;
 
-  // const terrain = Terrain({ color: 123432, speed: 123432 });
-  // result.add(terrain.mesh);
-
-  let request = 0;
-
-  const gameover = () => {
-    if (!request) {
-      window.cancelAnimationFrame(request);
-      console.log('stop!');
-    }
-  };
-  setTimeout(() => {
-    gameover();
-  }, 5000);
+  const terrain = Terrain('#123432');
+  scene.add(terrain.mesh);
 
   const render = () => {
     console.log('render!');
-    //const scene = new THREE.Scene();
 
-    // const loop = () => {
-    //   // update
-    //   terrain.mesh.rotation.z += 0.0005;
+    terrain.mesh.rotation.z += 0.0005;
 
-    //   // render
-    //   renderer.render(scene, camera);
-    request = window.requestAnimationFrame(render);
+    // render
+    renderer.render(scene, camera);
+    window.requestAnimationFrame(render);
   };
 
   return {
@@ -57,6 +45,7 @@ window.onload = () => {
     camera.aspect = resolution.width / resolution.height;
     camera.updateProjectionMatrix();
   };
+  const scene = new THREE.Scene();
 
   // world 설정
   const world = document.getElementById('world')!;
@@ -85,10 +74,14 @@ window.onload = () => {
   ];
 
   // stage 설정
-  const stage = Stage(stageInfos[0]);
+  const stage = Stage(
+    { camera: camera, renderer: renderer, scene: scene },
+    stageInfos[0]
+  );
 
   // stage draw 시작
   world.style.background = `linear-gradient(${stage.colors.background[0]}, ${stage.colors.background[1]})`;
+  stage.render();
 };
 
 // TODO: github.io 에 배포해볼까 https://www.npmjs.com/package/gh-pages
